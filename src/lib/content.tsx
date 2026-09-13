@@ -89,6 +89,7 @@ import placeGuanajuato from "@/assets/place-guanajuato.jpg";
 import placeYucatan from "@/assets/place-yucatan.jpg";
 import placeQuintanaRoo from "@/assets/place-quinanaroo.jpg";
 import posterXMen from "@/assets/poster-xmendofp.jpg"
+import { useEffect, useMemo } from "react";
 
 export type Poster = { title: string; meta: string; emoji: string; accent: string; image?: string };
 export type AnimeItem = { title: string; character: string; note: string; image?: string };
@@ -241,6 +242,7 @@ export const defaultContent: Content = {
     { label: "Videojuegos", emoji: "🕹️" },
     { label: "Anime", emoji: "💢" },
     { label: "Coleccionar Funkos-Figuras-Decorables", emoji: "📦" },
+    { label: "Fotografia", emoji: "📷" },
   ],
   colors: [
     { hex: "#7e22ce", name: "Morado" },
@@ -290,7 +292,7 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const [saveError, setSaveError] = React.useState<string | null>(null);
   const [loaded, setLoaded] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) {
@@ -311,12 +313,12 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const content: Content = React.useMemo(
+  const content: Content = useMemo(
     () => ({ ...defaultContent, ...overrides, profile: { ...defaultContent.profile, ...overrides.profile } }),
     [overrides],
   );
 
-  const value: Ctx = React.useMemo(
+  const value: Ctx = useMemo(
     () => ({
       content,
       editing,
